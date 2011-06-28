@@ -1,0 +1,49 @@
+libevatr is a Java library which provides access to the online XML-RPC service
+of federal central office for taxes (in Germany) to confirm value added tax
+identification numbers and addresses of foreign (european) companies.
+
+further informations on: http://evatr.bff-online.de/eVatR/xmlrpc/
+
+folder structure
+
+|   .classpath -- Eclipse project Java classpath setting
+|   .project -- Eclipse project settings
+|   build.xml -- Ant build definition
+|   build.properties -- Ant build properties
+|   LICENSE.TXT -- license information for libevatr
+|   README -- english read me file
+|   README.GER -- germean read me file
+|
++---.settings -- Eclipse project settings
+|
++---lib -- external library folder
+|       README -- describe which external library files needed for build and run
+|                 libevatr
+|
++---src
+|   \---sub
+|       \---optimal
+|           \---evatr
+|               |   RpcRequest.java -- class to execute the XML-RPC request
+|               |   XmlResponse.java -- class to process the XML response message
+|               |
+|               \---util -- libevatr util classes
+|                       InterfaceXmlRpcTagnames.java
+|                       ReturnCodes.java
+|                       RpcParameterException.java
+|                       StatusCodes.java
+|
+\---test
+    |   response_qualified_request.xml -- example XML response for a qualified
+    |                                     request
+    |   response_return_code_203.xml -- example XML response for a qualified
+    |                                   request with return code 203
+    |   response_return_code_204.xml -- example XML response for a qualified
+    |                                   request with return code 204
+    |   response_simple_request.xml -- example XML response for a simple request
+    |
+    \---sub
+        \---optimal
+                ExampleComplete.java -- complete example, demonstrate request
+                                        processing and response handling
+                ExampleResponse.java -- example to process a response_*.xml file

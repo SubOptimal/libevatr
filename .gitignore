@@ -1,0 +1,4 @@
+.checkstyle
+lib/*.jar
+build/
+dist/

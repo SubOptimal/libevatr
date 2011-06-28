@@ -1,0 +1,19 @@
+This directory must contain the Jar files included in distribution package of
+the Apache XML-RPC client 3.1.3.
+
+Following files are necessary:
+    commons-logging-1.1.jar
+    ws-commons-util-1.0.2.jar
+    xmlrpc-client-3.1.3.jar
+    xmlrpc-common-3.1.3.jar
+    xmlrpc-server-3.1.3.jar
+
+project URL:
+    http://ws.apache.org/xmlrpc/index.html
+
+You can download the distribution archive from a mirror listed here:
+    http://www.apache.org/dyn/closer.cgi/ws/xmlrpc/
+
+for example:
+    http://apache.openmirror.de//ws/xmlrpc/binaries/apache-xmlrpc-3.1.3-bin.zip
+

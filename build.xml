@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="libevatr" default="default" basedir=".">
+    <target name="default" depends="dist_binary" description="compile + build binary distribution Jar file"/>
+    <target name="dist_all" depends="dist_binary,dist_source" description="default + build the source distribution Jar file."/>
+
+    <!-- init build -->
+    <target name="init">
+        <property file="build.properties"/>
+        <path id="build.classpath">
+            <pathelement location="${commons-logging.jar}" />
+            <pathelement location="${ws-commons-util.jar}" />
+            <pathelement location="${xmlrpc-client.jar}" />
+            <pathelement location="${xmlrpc-common.jar}" />
+            <pathelement location="${xmlrpc-server.jar}" />
+        </path>
+        <tstamp>
+            <format property="today" pattern="yyyy-MM-dd HH:mm:ss" />
+        </tstamp>
+    </target>
+
+    <!-- check build setting -->
+    <target name="chk_settings" depends="init">
+        <fail unless="src.dir">Property not set src.dir"</fail>
+        <fail unless="build_bin.dir">Property not set build_bin.dir</fail>
+        <fail unless="build_doc.dir">Property not set build_doc.dir</fail>
+        <fail unless="build_src.dir">Property not set build_src.dir</fail>
+        <fail unless="dist.dir">Property not set dist.dir</fail>
+        <fail unless="dist_bin.jar">Property not set dist_bin.jar</fail>
+        <fail unless="dist_src.jar">Property not set dist_src.jar</fail>
+        <fail unless="meta.inf.dir">Property not set meta.inf.dir</fail>
+        <fail unless="manifest.file">Property not set manifest.file</fail>
+    </target>
+
+    <!-- compile the sources -->
+    <target name="compile" depends="chk_settings" 
+        description="Compiles all source files.">
+
+        <mkdir dir="${build_bin.dir}"/>
+        <delete dir="${build_src.dir}"/>
+
+        <javac encoding="UTF-8"
+            includeantruntime="false"
+            destdir="${build_bin.dir}"
+            srcdir="${src.dir}"
+            deprecation="${build.deprecation}"
+            classpathref="build.classpath">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- build the binary distribution Jar file -->
+    <target name="dist_binary" depends="compile"
+        description="Build the binary distribution Jar file.">
+
+        <mkdir dir="${dist.dir}"/>
+        <delete file="${dist_bin.jar}"/>
+
+        <fileset id="resources" dir=".">
+            <include name="LICENSE.TXT"/>
+        </fileset>
+
+        <jar basedir="${build_bin.dir}" jarfile="${dist_bin.jar}">
+            <fileset refid="resources"/>
+            <manifest>
+                <attribute name="library-name" value="${build.name}"/>
+                <attribute name="library-version" value="${build.version}"/>
+                <attribute name="author" value="${author}"/>
+                <attribute name="URL" value="${project.website}"/>
+                <attribute name="Built-On" value="${today}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- build the source code distribution Jar file, including the Javadoc -->
+    <target name="dist_source" depends="docs" 
+        description="Build the source + Javadoc distribution Jar file.">
+
+        <mkdir dir="${dist.dir}"/>
+        <delete file="${dist_src.jar}"/>
+
+        <copy todir="${build_src.dir}" preservelastmodified="true">
+            <fileset dir=".">
+                <exclude name="lib/*.jar"/>
+                <include name=".settings/**"/>
+                <include name="lib/**"/>
+                <include name="src/**"/>
+                <include name="test/**"/>
+                <include name=".classpath"/>
+                <include name=".project"/>
+                <include name="build.xml"/>
+                <include name="build.properties"/>
+                <include name="LICENSE.TXT"/>
+                <include name="README*"/>
+            </fileset>
+        </copy>
+
+        <jar basedir="${build_bin.dir}" 
+             jarfile="${dist_src.jar}" 
+             includes="${build.name}-${build.version}/**">
+             <manifest>
+                <attribute name="library-name" value="${build.name}"/>
+                <attribute name="library-version" value="${build.version}"/>
+                <attribute name="author" value="${author}"/>
+                <attribute name="URL" value="${project.website}"/>
+                <attribute name="Built-On" value="${today}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- create the Javadoc documentation -->
+    <target name="docs" depends="chk_settings">
+        <mkdir dir="${build_src.dir}"/>
+        <delete dir="${build_src.dir}"/>
+
+        <path id="source.dirs">
+            <pathelement location="${src.dir}/"/>
+            <pathelement location="${test.dir}"/>
+        </path>
+
+        <javadoc encoding="UTF-8"
+                 sourcepathref="source.dirs" 
+                 classpathref="build.classpath" 
+                 destdir="${build_doc.dir}"/>
+    </target>
+
+    <!-- remove all generated build content -->
+    <target name="clean" depends="chk_settings" 
+        description="remove all generated build content">
+        <delete includeEmptyDirs="true" failOnError="false">
+            <fileset dir="${build_bin.dir}"/>
+            <fileset dir="${dist.dir}"/>
+        </delete>
+    </target>
+</project>

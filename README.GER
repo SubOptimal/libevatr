@@ -1,0 +1,51 @@
+libevatr ist eine Java Bibliothek welche den Zugriff auf den XML-RPC Service
+des Bundeszentralamtes für Steuern, zur Bestätigung von Umsatzsteuer-
+Identifikationsnummern und Adfressdaten ausländischer Firmen, ermöglicht.
+
+Weitere Informationen unter: http://evatr.bff-online.de/eVatR/xmlrpc/
+
+Verzeichnisstruktur
+
+|   .classpath -- Eclipse Projekt Java classpath Einstellungen
+|   .project -- Eclipse Projekt Einstellungen
+|   build.xml -- Ant build Definition
+|   build.properties -- Ant build Einstellungen
+|   LICENSE.TXT -- Lizensinformation für libevatr
+|   README -- englische lies mich Datei
+|   README.GER -- deutsche lies mich Datei
+|
++---.settings -- Eclipse Projekt Einstellungen
+|
++---lib -- Verzeichnis für externe Bibliotheken
+|       README -- beschreibt welche externen Bibliotheken für den Bau und die
+|                 Ausführung von libevatr benötigt werden
+|
++---src
+|   \---sub
+|       \---optimal
+|           \---evatr
+|               |   RpcRequest.java -- Klasse für die XML-RPC Anfrage
+|               |   XmlResponse.java -- Klass für die Verarbeitung der XML Antwort
+|               |
+|               \---util -- libevatr Hilfsklassen
+|                       InterfaceXmlRpcTagnames.java
+|                       ReturnCodes.java
+|                       RpcParameterException.java
+|                       StatusCodes.java
+|
+\---test
+    |   response_qualified_request.xml -- Beispiel XML Antwort für eine quali-
+    |                                     fizierte Anfrage
+    |   response_return_code_203.xml -- Beispiel XML Antwort für eine quali-
+    |                                   fizierte Anfrage mit Rückgabecode 203
+    |   response_return_code_204.xml -- Beispiel XML Antwort für eine quali-
+    |                                   fizierte Anfrage mit Rückgabecode 204
+    |   response_simple_request.xml -- Beispiel XML Antwort für eine einfache
+    |                                  Anfrage
+    |
+    \---sub
+        \---optimal
+                ExampleComplete.java -- vollständiges Beispiel, demonstriert
+                                        Anfrage- und Antwortbehandlung
+                ExampleResponse.java -- Beispiel um eine response_*.xml Datei zu
+                                        verarbeiten
